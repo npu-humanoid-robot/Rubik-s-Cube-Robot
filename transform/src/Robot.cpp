@@ -2,7 +2,7 @@
 
 robot::robot()
 {
-  IsWarning = false;
+  IsWarning = 0;
   m_cube.clear();
 }
 
@@ -35,25 +35,25 @@ void robot::translate(unsigned char *chain)
     case 1:
       left_spin_CW();
       break;
-    case 10:
+    case 10://a
       right_spin_CCW();
       break;
     case 2:
       left_spin_CCW();
       break;
-    case 11:
+    case 11://b
       right_spin_OT();
       break;
     case 3:
       left_spin_OT();
       break;
-    case 13:
+    case 13://d
       right_open();
       break;
     case 5:
       left_open();
       break;
-    case 14:
+    case 14://e
       right_close();
       break;
     case 6:
@@ -64,7 +64,15 @@ void robot::translate(unsigned char *chain)
   }
   if (IsWarning)
   {
-    cout << "error at :[" << i << "] " << endl;
+    cout << "error at :[" << i << "] "<< endl;
+    if(IsWarning == 1)
+    {
+      cout<<"Part:"<<"Clamp"<< endl;
+    }
+    else if(IsWarning == 2)
+    {
+      cout<<"Part:"<<"Spin"<< endl;
+    }
   }
 }
 
@@ -157,10 +165,10 @@ void robot::right_open()
 bool robot::check_status()
 {
   if (leftArm.Clamp && rightArm.Clamp)
-    IsWarning = true;
+    IsWarning = 1;
   else if (leftArm.Spin && rightArm.Spin)
-    IsWarning = true;
+    IsWarning = 2;
   else
-    IsWarning = false;
+    IsWarning = 0;
   return IsWarning;
 }

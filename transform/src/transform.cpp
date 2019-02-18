@@ -510,7 +510,6 @@ void Transform::printFinalOut()
 
 unsigned char *Transform::getMessage()
 {
-    unsigned char output[200];
     output[0] = 255;
     output[1] = 255;
     output[2] = minCost;

@@ -23,7 +23,7 @@ private:
   robot_arm leftArm;
   robot_arm rightArm;
 
-  bool IsWarning;
+  int IsWarning;
 
 public:
   bool check_status();

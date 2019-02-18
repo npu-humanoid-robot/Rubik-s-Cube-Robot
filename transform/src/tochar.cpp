@@ -32,7 +32,7 @@ void Transform::toChar() {
 
 void Transform::printCharResult() {
     for(int i = 0;i < (minCost + 1) / 2;i++)
-        std::cout <<std::hex<<result[i]<<" ";
+        std::cout <<std::hex<<(int)result[i]<<" ";
     std::cout <<std::endl;
 }
 
