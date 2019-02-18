@@ -2,14 +2,15 @@
 #include <cstring>
 #include <string>
 #include <stdlib.h>
-#include <time.h> 
+#include <time.h>
 #include <iomanip>
 
-class Transform{
-public:
-
+class Transform
+{
+  public:
     //构造函数
-    Transform(){
+    Transform()
+    {
         numAction = 0;
         cost = 0;
         minCost = 1000000000;
@@ -20,17 +21,20 @@ public:
     }
     //新建一个对象后首先调用这个方法，结果便在result里了
     void mainControl();
-    
+
     void printCharResult();
 
     //获得动作数
     int getMinCost();
 
     void printFinalOut();
-    
-    
-private:
 
+    //获取全部动作
+    unsigned char *getResult() { return result; };
+    //获取串口信息
+    unsigned char *getMessage();
+
+  private:
     //基础动作
 
     //左手夹子松开
@@ -53,7 +57,6 @@ private:
     void leftR180();
     //右转轴转180度
     void rightR180();
-
 
     //以下四个为组合动作，即转90度要返回，而转180度无需返回原位置
 
@@ -108,9 +111,6 @@ private:
     void printFinalChoice();
     void printChoice();
 
-
-    
-
     //处理输入的魔方解法字符串，一步一步编译为硬件层需要序列
     //输出的序列在out中
     void controller();
@@ -119,12 +119,11 @@ private:
     void printOut();
     //void printFinalOut();
     void toChar();
-    
+
     int getCost();
     //深搜
     void dfs(int depth);
     void dfs_better(int depth);
-
 
     std::string in;
     std::string in_copy;
@@ -134,8 +133,9 @@ private:
     int cost;
     int minCost;
     int maxSearchStep;
-    int* choice;
-    int* finalChoice;
+    int *choice;
+    int *finalChoice;
 
     unsigned char result[150];
+    unsigned char output[200];
 };

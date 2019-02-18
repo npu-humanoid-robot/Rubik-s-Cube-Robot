@@ -14,8 +14,8 @@
 int main(int argc, char const *argv[])
 {
     int fd;
-    unsigned char message;
-    Transform *tessst = new Transform();
+    unsigned char *message;
+    Transform *test = new Transform();
     test->mainControl();
 
     if (wiringPiSetup() < 0)

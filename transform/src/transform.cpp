@@ -551,3 +551,20 @@ void Transform::printFinalOut() {
     //cout <<"outcost :"<<i/4<<endl;
 
 }
+
+unsigned char *Transform::getMessage()
+{
+    output[0] = 255;
+    output[1] = 255;
+    output[2] = minCost;
+    int sum = 0;
+    for (int i = 0; i < ((minCost + 1) / 2); i++)
+    {
+        output[i + 3] = result[i];
+        sum += result[i];
+    }
+    output[3 + (minCost + 1) / 2] = sum % 256; //计算和校验位
+    output[3 + (minCost + 1) / 2] = 0;
+
+    return output;
+}
