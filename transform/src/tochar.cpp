@@ -21,7 +21,7 @@ void Transform::toChar() {
         //std::cout <<std::endl;
         int merge = 0;
         for(int j = 0;j < 8;j++)
-            merge += tmp[j] << j;
+            merge += tmp[j] << (7-j);
         
         //std::cout <<merge<<" ";
         result[count] = merge;

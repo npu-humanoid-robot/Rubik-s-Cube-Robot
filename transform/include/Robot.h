@@ -13,6 +13,11 @@ public:
   };
   void close() { Clamp = false; };
   void open() { Clamp = true; };
+  void doSpin()
+  {
+    if (Spin == false) Spin = true;
+    else Spin = false;
+  };
   ~robot_arm(){};
 };
 
@@ -24,6 +29,8 @@ private:
   robot_arm rightArm;
 
   int IsWarning;
+
+  bool Debug;
 
 public:
   bool check_status();
