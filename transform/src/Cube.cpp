@@ -106,8 +106,14 @@ void cube::output()
     {
         cout << state[j] << ' ';
     }
-    cout << '\n'
-         << endl;
+    cout<<'\n';
+    for (int j=0;j<9;j++)  cout<< topset[j];
+    for (int j=0;j<9;j++)  cout<< rigset[j];
+    for (int j=0;j<9;j++)  cout<<froset[j];
+    for (int j=0;j<9;j++)  cout<< botset[j];
+    for (int j=0;j<9;j++)  cout<< lefset[j];
+    for (int j=0;j<9;j++)  cout<< behset[j];
+    cout<<'\n';
 }
 void cube::play(char *chain)
 {

@@ -30,6 +30,14 @@ public:
   unsigned char *getResult() { return result; };
 
   unsigned char *getMessage();
+  
+  void printFinalOut();
+  //处理输入的魔方解法字符串，一步一步编译为硬件层需要序列
+  //输出的序列在out中
+  void controller();
+
+  //输出函数，暂时定位打印在控制台中，方便调试，亦方便使用管道通信来进行进程间的合作
+  void printOut();
 
 private:
   //基础动作
@@ -104,13 +112,10 @@ private:
   void printFinalChoice();
   void printChoice();
 
-  //处理输入的魔方解法字符串，一步一步编译为硬件层需要序列
-  //输出的序列在out中
-  void controller();
+  
 
-  //输出函数，暂时定位打印在控制台中，方便调试，亦方便使用管道通信来进行进程间的合作
-  void printOut();
-  void printFinalOut();
+  
+
   void toChar();
 
   int getCost();

@@ -330,6 +330,9 @@ void Transform::BtoD()
 void Transform::input()
 {
     getline(cin, in);
+    /*for (int i = 0; i < in.length(); i++)
+        if (in[i] == '3')
+            in[i] = '\'';*/
 }
 void Transform::preProcess()
 {
@@ -337,9 +340,9 @@ void Transform::preProcess()
     for (int i = 0; i < Length; i++)
         if (in[i] == ' ')
             in[i] = '1';
-    string tmp(((Length + 1) / 3) * 2, 0);
+    string tmp(((Length + 2) / 3) * 2, 0);
     int j = 0;
-    for (int i = 0; i < Length; i += 3)
+    for (int i = 0; i <= Length; i += 3)
     {
         tmp[j] = in[i];
         tmp[j + 1] = in[i + 1];
@@ -438,6 +441,11 @@ void Transform::controller()
     }
 
     this->calulateCost();
+    minCost = cost;
+    for(int i = 0;i < numAction;i++)
+        finalOut[i] = out[i];
+    //finalOut[numAction] = '\0';
+    toChar();
 }
 
 //将结果打印出来
@@ -503,6 +511,8 @@ void Transform::printFinalOut()
         if (finalOut[i] == '\0')
             break;
         i++;
+        if (i % 4 == 0)
+            cout << ' ';
     }
     cout << endl;
     //cout <<"outcost :"<<i/4<<endl;
@@ -514,13 +524,13 @@ unsigned char *Transform::getMessage()
     output[1] = 255;
     output[2] = minCost;
     int sum = 0;
-    for (int i=0;i<((minCost+1)/2);i++)
+    for (int i = 0; i < ((minCost + 1) / 2); i++)
     {
-        output[i+3] = result[i];
-        sum+=result[i];
+        output[i + 3] = result[i];
+        sum += result[i];
     }
-    output[3+(minCost+1)/2] = sum%256;//计算和校验位
-    output[3+(minCost+1)/2] = 0;
+    output[3 + (minCost + 1) / 2] = sum % 256; //计算和校验位
+    output[3 + (minCost + 1) / 2] = 0;
 
     return output;
 }

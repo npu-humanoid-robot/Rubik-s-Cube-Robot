@@ -13,18 +13,26 @@ int main(int argc, char const *argv[])
     // trf->printOut();
     // std::cout <<"Cost:"<<trf->getCost()<<std::endl;
     // delete trf;
-    robot *test_robot = new robot();
-    Transform *test = new Transform();
-    unsigned char *message;
-    char list[100];
-    test->mainControl();
-    cin.getline(list, 100, '\n');
-    test_robot->disorder(list);
-    test_robot->display();
-    std::cout << "minCost: " << test->getMinCost() << std::endl;
-    test->printCharResult();
-    message = test-> getMessage();
-    test_robot->translate(message);
-    test_robot->display();
+    while(true)
+    {
+        robot *test_robot = new robot();
+        Transform *test = new Transform();
+        unsigned char *message;
+        char list[200];
+        test->mainControl();
+        //test->controller();
+        cin.getline(list, 200, '\n');
+        test_robot->disorder(list);
+        test_robot->display();
+        std::cout << "minCost: " << test->getMinCost() << std::endl;
+        test->printCharResult();
+        test->printFinalOut();
+        //test->printOut();
+        message = test-> getMessage();
+        test_robot->translate(message);
+        test_robot->display();
+        
+    }
     return 0;
+    
 }
