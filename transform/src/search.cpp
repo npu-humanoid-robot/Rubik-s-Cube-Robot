@@ -108,9 +108,9 @@ void Transform::dfs(int depth) {
 
             for(int k = depth * 2;k < in.length();k++)
                 in[k] = in_tmp[k];                    //恢复序列现场
-            std::cout <<"R:?"<<in[i]<<std::endl;
+            //std::cout <<"R:?"<<in[i]<<std::endl;
             RtoF();
-            std::cout <<"F:?"<<in[i]<<std::endl;
+            //std::cout <<"F:?"<<in[i]<<std::endl;
             choice[depth] = 1;
         
             dfs(depth);
@@ -119,9 +119,9 @@ void Transform::dfs(int depth) {
 
             for(int k = depth * 2;k < in.length();k++)
                 in[k] = in_tmp[k];                    //恢复序列现场
-            std::cout <<"R:?"<<in[i]<<std::endl;
+            //std::cout <<"R:?"<<in[i]<<std::endl;
             RtoB();
-            std::cout <<"B:?"<<in[i]<<std::endl;
+            //std::cout <<"B:?"<<in[i]<<std::endl;
             choice[depth] = 2;
             
             dfs(depth);

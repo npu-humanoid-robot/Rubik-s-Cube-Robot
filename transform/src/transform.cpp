@@ -556,7 +556,7 @@ unsigned char *Transform::getMessage()
 {
     output[0] = 255;
     output[1] = 255;
-    output[2] = minCost;
+    output[2] =( minCost + 1)/2;
     int sum = 0;
     for (int i = 0; i < ((minCost + 1) / 2); i++)
     {
