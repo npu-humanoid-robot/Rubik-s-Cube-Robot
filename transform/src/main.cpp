@@ -21,7 +21,7 @@ int main(int argc, char const *argv[])
     if (wiringPiSetup() < 0)
         return 1;
 
-    if ((fd = serialOpen((char *)"/dev/ttyAMA0", 9600)) < 0)
+    if ((fd = serialOpen((char *)"/dev/ttyAMA0", 921600)) < 0)
         return 1;
 
     printf("serial test start ...\n");

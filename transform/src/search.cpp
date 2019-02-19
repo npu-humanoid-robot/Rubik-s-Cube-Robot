@@ -106,7 +106,7 @@ void Transform::dfs(int depth) {
             dfs(depth+1);
             numAction = iniActionNum; //用于恢复现场
 
-            for(int k = depth * 2;k < in.length();k++)
+            /*for(int k = depth * 2;k < in.length();k++)
                 in[k] = in_tmp[k];                    //恢复序列现场
             //std::cout <<"R:?"<<in[i]<<std::endl;
             RtoF();
@@ -125,7 +125,7 @@ void Transform::dfs(int depth) {
             choice[depth] = 2;
             
             dfs(depth);
-            numAction = iniActionNum;
+            numAction = iniActionNum;*/
         }
         else if(in[i] == 'F')
         {
@@ -162,7 +162,7 @@ void Transform::dfs(int depth) {
             dfs(depth+1);
             numAction = iniActionNum;
 
-            for(int k = depth * 2;k < in.length();k++)
+            /*for(int k = depth * 2;k < in.length();k++)
                 in[k] = in_tmp[k];                    //恢复序列现场
             //std::cout <<"U:?"<<in[i]<<std::endl;
             UtoF();
@@ -180,7 +180,7 @@ void Transform::dfs(int depth) {
             choice[depth] = 2;
             dfs(depth);
             
-            numAction = iniActionNum;
+            numAction = iniActionNum;*/
 
         }
         else if(in[i] == 'B') //结构同F
