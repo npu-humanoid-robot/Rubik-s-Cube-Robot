@@ -39,3 +39,6 @@ build/
 
 #VScode
 .vscode/
+
+#java
+*.class
