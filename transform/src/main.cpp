@@ -30,6 +30,7 @@ int main(int argc, char const *argv[])
 
     message = test->getMessage();
     serialPrintf(fd, (char *)message);
+    serialPutchar(fd,'\0');
 
     //while(1)
     //{

@@ -564,7 +564,7 @@ unsigned char *Transform::getMessage()
         sum += result[i];
     }
     output[3 + (minCost + 1) / 2] = sum % 256; //计算和校验位
-    output[3 + (minCost + 1) / 2] = 0;
+    output[4 + (minCost + 1) / 2] = 0;
 
     return output;
 }

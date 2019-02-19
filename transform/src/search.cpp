@@ -18,6 +18,53 @@ using namespace std;
 //This is the main procedure of deep search.
 //The most of functions called are implemented in transform.cpp
 
+void Transform::roationOfLD(int i) {
+    i *= 2;
+    try
+    {
+        if(in[i] == 'L') 
+        {
+        
+            if(in[i+1] == '\'')
+                leftRCounterwiseAndReturn();
+            else if(in[i+1] == '1')
+                leftRColckwisAndReturn();
+            else if(in[i+1] == '2')
+                leftR180();
+            else
+            {
+                throw "the operand is illegal";
+            }
+        }
+        else if(in[i] == 'D')
+        {
+           
+            if(in[i+1] == '\'')
+                rightRCounterwiseAndReturn();
+            else if(in[i+1] == '1')
+                rightRColckwisAndReturn();
+            else if(in[i+1] == '2')
+                rightR180();
+            else
+            {
+  
+                throw "the angel of rotation is illegal";
+            }
+                    
+        }
+        else
+        {
+            throw "the surface to be rotatied is illegal";
+        }
+        
+    }
+    catch(const char* msg)
+    {
+        std::cerr <<msg<<std::endl;
+    }
+
+}
+
 void Transform::dfs(int depth) {
     if(depth >= this->maxSearchStep)
     {
