@@ -42,3 +42,8 @@ build/
 
 #java
 *.class
+
+#vision
+__pytcache__
+*.pyc
+*.ini
