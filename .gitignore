@@ -46,4 +46,3 @@ build/
 #vision
 __pytcache__
 *.pyc
-*.ini
