@@ -26,7 +26,7 @@ class Img2Status:
 
 if __name__ == "__main__":
     config = configparser.ConfigParser()
-    config.read("../config/vision_pretreat.ini")
+    config.read("../configs/vision_pretreat.ini")
 
     pic_path = "../BackupSource/*.jpg"
     pic_paths = [i for i in glob.glob(pic_path)]
@@ -40,11 +40,7 @@ if __name__ == "__main__":
         cv2.imshow("233", img)
         cv2.waitKey(0)
     pp = Pretreat(pics, config)
-    pp.DoPreproc()
-    pp.CutImage()
-    pp.GetSampleRectAvg()
-    result = pp.sample_scalars
-
+    result = pp.GetResult()
     ya = Img2Status(result)
     ya.Cluster()
     labels = ya.labels

@@ -22,7 +22,13 @@ class Pretreat:
     def __init__(self, raw_four_images, config):
         self.raw_four_images = raw_four_images  # raw images
         self.SetParams(config)      # get points from config objuect
-        return 
+
+        # Do pretreat
+        self.DoPreproc()
+        self.CutImage()
+        self.GetSampleRectAvg()
+    def GetResult(self):
+        return self.sample_scalars
     def DoPreproc(self):
         for i in self.raw_four_images:
             i = cv2.GaussianBlur(i, (7, 7), 0)
