@@ -8,6 +8,7 @@ from sklearn.cluster import KMeans
 class Img2Status:
     def __init__(self, scalars):
         self.scalars = scalars 
+        self.Cluster()
         return 
     def Cluster(self):
         kmeans_cluster = KMeans(n_clusters=6, n_init=100, tol=0.0001)
