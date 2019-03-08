@@ -1,5 +1,3 @@
-from Pretreat import *
-
 import cv2
 import numpy as np
 import glob
@@ -8,6 +6,7 @@ from sklearn.cluster import KMeans
 class Img2Status:
     def __init__(self, scalars):
         self.scalars = scalars 
+        self.Cluster()
         return 
     def Cluster(self):
         kmeans_cluster = KMeans(n_clusters=6, n_init=100, tol=0.0001)
@@ -40,11 +39,7 @@ if __name__ == "__main__":
         cv2.imshow("233", img)
         cv2.waitKey(0)
     pp = Pretreat(pics, config)
-    pp.DoPreproc()
-    pp.CutImage()
-    pp.GetSampleRectAvg()
-    result = pp.sample_scalars
-
+    result = pp.GetResult()
     ya = Img2Status(result)
     ya.Cluster()
     labels = ya.labels
