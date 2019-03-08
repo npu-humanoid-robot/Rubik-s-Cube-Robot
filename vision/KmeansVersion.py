@@ -26,7 +26,7 @@ class Img2Status:
 
 if __name__ == "__main__":
     config = configparser.ConfigParser()
-    config.read("../config/vision_pretreat.ini")
+    config.read("../configs/vision_pretreat.ini")
 
     pic_path = "../BackupSource/*.jpg"
     pic_paths = [i for i in glob.glob(pic_path)]
