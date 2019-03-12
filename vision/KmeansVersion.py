@@ -2,6 +2,9 @@ import cv2
 import numpy as np
 import glob
 from sklearn.cluster import KMeans
+import configparser
+
+from Pretreat import *
 
 class Img2Status:
     def __init__(self, scalars):
@@ -9,7 +12,7 @@ class Img2Status:
         self.Cluster()
         return 
     def Cluster(self):
-        kmeans_cluster = KMeans(n_clusters=6, n_init=100, tol=0.0001)
+        kmeans_cluster = KMeans(n_clusters=6, n_init=666, tol=0.1)
         kmeans_cluster.fit(self.scalars)
         self.labels = kmeans_cluster.labels_
         return
@@ -40,6 +43,10 @@ if __name__ == "__main__":
         cv2.waitKey(0)
     pp = Pretreat(pics, config)
     result = pp.GetResult()
+    for i in pp.perspectived_imgs:
+        cv2.imshow("233", i)
+        cv2.waitKey()
+
     ya = Img2Status(result)
     ya.Cluster()
     labels = ya.labels

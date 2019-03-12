@@ -20,9 +20,6 @@ if __name__ == "__main__":
 
     # get color scalars
     pp = Pretreat(pics, config)
-    pp.DoPreproc()
-    pp.CutImage()
-    pp.GetSampleRectAvg()
     result = pp.sample_scalars
 
     # show scalars
@@ -32,8 +29,7 @@ if __name__ == "__main__":
 
     colors = ['red', 'orange',
             'blue', 'green',
-            'white', 'yellow']
-
+            'red', 'yellow']
     
     for i in range(6):
         r = []

@@ -32,7 +32,7 @@ class Pretreat:
     def DoPreproc(self):
         for i in self.raw_four_images:
             i = cv2.GaussianBlur(i, (7, 7), 0)
-            i = cv2.cvtColor(i, cv2.COLOR_BGR2HLS_FULL)
+            i = cv2.cvtColor(i, cv2.COLOR_BGR2HSV_FULL)
     def CutImage(self):
         # do 透视变换
         self.perspectived_imgs = []
@@ -65,6 +65,7 @@ class Pretreat:
     
     def GetSampleRectAvg(self):
         # sum the scalar and get avg
+        # at the same time to show the rect 
         self.sample_scalars = [] 
         for j in range(6):
             for i in range(9):
@@ -75,6 +76,8 @@ class Pretreat:
                     for col_i in range(10):
                         t_sum += self.perspectived_imgs[j][rect_rows+row_i, rect_cols+col_i]
                 t_sum /= 100
+
+                cv2.rectangle(self.perspectived_imgs[j], (rect_cols, rect_rows), (rect_cols+10, rect_rows+10), (0, 0, 0), 5)
                 self.sample_scalars.append(t_sum)
         # return them
         return 
