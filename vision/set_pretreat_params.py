@@ -25,7 +25,8 @@ def MouseHandler(event, x, y, flags, param):
     return 
 
 if __name__ == "__main__":
-    cp = cv2.VideoCapture(0)
+    CP_OPEN = 0
+    cp = cv2.VideoCapture(CP_OPEN)
     cv2.namedWindow("233")
     cv2.setMouseCallback("233", MouseHandler)
     while True:
@@ -50,6 +51,10 @@ if __name__ == "__main__":
         key = cv2.waitKey(1)
         if key == ord('q'): 
             break
+        elif key == ord('c'):
+            CP_OPEN = 2-CP_OPEN
+            print(CP_OPEN)
+            cp.open(CP_OPEN)
         elif key-ord('1') <= 3 and key != -1:
             config = configparser.ConfigParser()
             config.read("../configs/vision_pretreat.ini")
