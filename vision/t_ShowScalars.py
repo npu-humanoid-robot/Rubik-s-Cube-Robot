@@ -25,9 +25,10 @@ if __name__ == "__main__":
     # show scalars
     fig = plt.figure()
     ax1 = plt.axes(projection='3d')
+    # ax1 = plt.axes()
 
 
-    colors = ['red', 'orange',
+    colors = ['black', 'orange',
             'blue', 'green',
             'red', 'yellow']
     
@@ -40,5 +41,6 @@ if __name__ == "__main__":
             g.append(result[i*9+j][1])
             r.append(result[i*9+j][2])
         ax1.scatter3D(b, g, r, color = colors[i])
-
+        # ax1.scatter(r, g, color=colors[i])
+        
     plt.show()

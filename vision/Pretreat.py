@@ -32,7 +32,18 @@ class Pretreat:
     def DoPreproc(self):
         for i in self.raw_four_images:
             i = cv2.GaussianBlur(i, (7, 7), 0)
-            i = cv2.cvtColor(i, cv2.COLOR_BGR2HSV_FULL)
+            t_lab = cv2.cvtColor(i, cv2.COLOR_BGR2LAB)
+            t_hsv = cv2.cvtColor(i, cv2.COLOR_BGR2HSV_FULL)
+
+            t_lab_cs = cv2.split(t_lab)
+            t_hsv_cs = cv2.split(t_hsv)
+
+            t_lab_cs[0] = t_hsv_cs[0]
+
+            hab = cv2.merge(t_lab_cs)
+            
+            i = hab
+
     def CutImage(self):
         # do 透视变换
         self.perspectived_imgs = []

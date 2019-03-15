@@ -9,6 +9,8 @@ from Pretreat import *
 class Img2Status:
     def __init__(self, scalars):
         self.scalars = scalars 
+        # for i in self.scalars:
+        #     i = (i[1], i[2])
         self.Cluster()
         return 
     def Cluster(self):
