@@ -66,4 +66,4 @@ if __name__ == "__main__":
                 config.write(r)
         # collect images
         elif key-ord('1') >= 4 and key-ord('1') <=8:
-            cv2.imwrite("../BackupSource/%d.jpg"%(key-ord('1')), frame)
+            cv2.imwrite("../BackupSource/%d.jpg"%(key-ord('1')-4), frame)

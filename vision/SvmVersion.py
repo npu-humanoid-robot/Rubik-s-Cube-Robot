@@ -70,6 +70,18 @@ if __name__ == "__main__":
     trainer.Train("svm_linear.model")
 
     classifer = SvmPredict("svm_linear.model")
+    
+    test_pic_path = "../BackupSource/test_pics/*.jpg"
+    test_pic_paths = [i for i in glob.glob(test_pic_path)]
+    test_pics = []
+    for i in test_pic_paths:
+        print(i)
+        img = cv2.imread(i)
+        test_pics.append(img)
+
+    pp = Pretreat(test_pics, config)
+    train_data = pp.GetResult()
+
     result_str = classifer.Predict2Status(train_data)
     print(result_str)
 

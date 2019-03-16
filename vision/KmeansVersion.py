@@ -32,7 +32,7 @@ if __name__ == "__main__":
     config = configparser.ConfigParser()
     config.read("../configs/vision_pretreat.ini")
 
-    pic_path = "../BackupSource/*.jpg"
+    pic_path = "../BackupSource/test_pics/*.jpg"
     pic_paths = [i for i in glob.glob(pic_path)]
     pics = []
     for i in pic_paths:
