@@ -26,7 +26,7 @@ int main(int argc, char const *argv[])
 
     printf("serial test start ...\n");
     std::cout << "minCost: " << test->getMinCost() << std::endl;
-    test->printCharResult();
+    //test->printCharResult();
 
     message = test->getMessage();
     serialPrintf(fd, (char *)message);
