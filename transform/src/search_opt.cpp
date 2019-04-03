@@ -1,71 +1,12 @@
 //  Copyright:NPU Soccer Robot Base Humanoid group
 //  Author:Zhang Duo
-//  Date:2019.2.18
-//  This code is using the dfs methods to serach the solution tree.
-//  When the rotating surface is F or B, 
-//  the number of solution spaces will be bifurcated.
-//  For the time being, it is not considered 
-//  to bifurcate when the rotating surface is U or R.
-
-
-
+//  Date:2019.2.19
+//  Version:3.0
 
 #include <transform.h>
 using namespace std;
-//This function just use for search function 
-void Transform::roationOfLD(int i) {
-    i *= 2;
-    try
-    {
-        if(in[i] == 'L') 
-        {
-        
-            if(in[i+1] == '\'')
-                leftRCounterwiseAndReturn();
-            else if(in[i+1] == '1')
-                leftRColckwisAndReturn();
-            else if(in[i+1] == '2')
-                leftR180();
-            else
-            {
-                throw "the operand is illegal";
-            }
-        }
-        else if(in[i] == 'D')
-        {
-           
-            if(in[i+1] == '\'')
-                rightRCounterwiseAndReturn();
-            else if(in[i+1] == '1')
-                rightRColckwisAndReturn();
-            else if(in[i+1] == '2')
-                rightR180();
-            else
-            {
-  
-                throw "the angel of rotation is illegal";
-            }
-                    
-        }
-        else
-        {
-            throw "the surface to be rotatied is illegal";
-        }
-        
-    }
-    catch(const char* msg)
-    {
-        std::cerr <<msg<<std::endl;
-    }
 
-}
-
-//U1F2D1B2F1R1D2
-//D' R2 L  D  B  U2 F  R2 D' F2 U2 R2 L  F2 B2 R  D2 R' D2 R' B2
-//This is the main procedure of deep search.
-//The most of functions called are implemented in transform.cpp
-
-void Transform::dfs(int depth) {
+void Transform::dfs_opt(int depth) {
     if(depth >= this->maxSearchStep)
     {
     
@@ -86,15 +27,41 @@ void Transform::dfs(int depth) {
     else
     {
         int i = depth * 2;
-        
+
         if(in[i] == 'L' || in[i] == 'D')
         {
             int iniActionNum = numAction; //用于保存现场
-            choice[depth] = 0;
+            std::string in_tmp = in;
+            
+            if(in[i+1] != '2' && i + 2 < in.length() && 
+                        (in[i+2] =='B' || in[i+2] == 'F' ) ) //can opt
+            {
+                choice[depth] = 0;
+                if(in[i] == 'L' && in[i+1] == '1') //L1接B或F
+                    L1WithBorFOpt(in[i+2]);
+                else if(in[i] == 'L' && in[i+1] == '\'') //L3接B或F
+                    L3WithBorFOpt(in[i+2]);
+                else if(in[i] == 'D' && in[i+1] == '1') //D1接B或F
+                    D1WithBorFOpt(in[i+2]);
+                else if(in[i] == 'D' && in[i+1] == '\'') //D3接B或F
+                    D3WithBorFOpt(in[i+2]);
+                cout <<"Finish opt"<<endl;
+                dfs_opt(depth+1);
+                numAction = iniActionNum;
+            }
+            
+            
+            for(int i = depth * 2;i < in.length();i++)
+                in[i] = in_tmp[i];
+
+            choice[depth] = 1;
             roationOfLD(depth);
          
-            dfs(depth+1);
+            dfs_opt(depth+1);
             numAction = iniActionNum; //恢复现场
+            
+            
+            
         }
         else if(in[i] == 'R')
         {
@@ -103,7 +70,7 @@ void Transform::dfs(int depth) {
             choice[depth] = 0;
             roationOfLD(depth);
            
-            dfs(depth+1);
+            dfs_opt(depth+1);
             numAction = iniActionNum; //用于恢复现场
         }
         else if(in[i] == 'F')
@@ -117,7 +84,7 @@ void Transform::dfs(int depth) {
             choice[depth] = 0;
             
             roationOfLD(depth);
-            dfs(depth+1);
+            dfs_opt(depth+1);
             numAction = iniActionNum; //恢复动作现场
 
 
@@ -127,7 +94,7 @@ void Transform::dfs(int depth) {
 
             choice[depth] = 1;
             roationOfLD(depth);
-            dfs(depth+1);
+            dfs_opt(depth+1);
             numAction = iniActionNum;  //恢复动作现场
         
         }
@@ -137,7 +104,7 @@ void Transform::dfs(int depth) {
             UtoD();
             choice[depth] = 0;
             roationOfLD(depth);
-            dfs(depth+1);
+            dfs_opt(depth+1);
             numAction = iniActionNum;
         }
         else if(in[i] == 'B') //结构同F
@@ -149,7 +116,7 @@ void Transform::dfs(int depth) {
             choice[depth] = 0;
             roationOfLD(depth);
             
-            dfs(depth+1);
+            dfs_opt(depth+1);
             numAction = iniActionNum;
             
             for(int i = depth * 2;i < in.length();i++)
@@ -158,7 +125,7 @@ void Transform::dfs(int depth) {
             BtoL();
             choice[depth] = 1;
             roationOfLD(depth);
-            dfs(depth+1);
+            dfs_opt(depth+1);
             numAction = iniActionNum;
         }
 
