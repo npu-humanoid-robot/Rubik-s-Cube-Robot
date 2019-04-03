@@ -39,10 +39,10 @@ int main(int argc, char const *argv[])
         return 1;
 
     std::cout <<"minCost: "<<std::dec<<test1->getMinCost()<<std::endl;
-    message = test->getMessage();
+    message = test1->getMessage();
     serialPrintf(fd, (char *)message);
     serialPutchar(fd,'\0');
-    printf("Done!");
+    printf("Done!\n");
     serialClose(fd);
     test1->printFinalOut();
     test1->printCharResult();

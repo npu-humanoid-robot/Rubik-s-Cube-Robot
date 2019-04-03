@@ -29,6 +29,8 @@ public:
 
     void printFinalOut();
     
+   unsigned char *getMessage();
+    
     
 private:
 
@@ -147,4 +149,5 @@ private:
     int* finalChoice;
 
     unsigned char result[150];
+    unsigned char output[200];
 };
