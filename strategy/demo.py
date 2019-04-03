@@ -6,7 +6,8 @@ import configparser
 import time
 
 import sys
-sys.path.append("../")
+#sys.path.append("../")
+sys.path.insert(0, "../")
 from vision.Pretreat import Pretreat 
 from vision.KmeansVersion import Img2Status
 
@@ -28,21 +29,25 @@ def getColorResult(pics):
     return str_result
 
 def getFinalResult(str_result):
-    java_res = os.popen("cd ..\n cd min2phase-dev-min\n java demo {0} | ../transform/build/main\n cd ..\n cd strategy".format(str_result))
+    #java_res = os.popen("cd ..\n cd min2phase-dev-min\n java demo {0} | ../transform/build/main\n cd ..\n cd strategy".format(str_result))
+    test = "RLUFURBDLDULLRBLRFUFBRFFUFDRRFDDDDDDUULBLBBBFFUBLBURLR"
+    java_res = os.popen("cd ..\n cd min2phase-dev-min\n java demo {0} | ../transform/build/transform".format(test))
+    print(java_res.read())
     return java_res.read()
 
 
 
 def main():
-    pics = getImageResut()
-    str_result = getColorResult(pics)
+    #pics = getImageResut()
+    #str_result = getColorResult(pics)
+    str_result =''
     final_result = getFinalResult(str_result)
 
     
-    cv2.imwrite("a.jpg",pics[0])
-    cv2.imwrite("b.jpg",pics[1])
-    cv2.imwrite("c.jpg",pics[2])
-    cv2.imwrite("d.jpg",pics[3])
+    #cv2.imwrite("a.jpg",pics[0])
+    #cv2.imwrite("b.jpg",pics[1])
+    #cv2.imwrite("c.jpg",pics[2])
+    #cv2.imwrite("d.jpg",pics[3])
 
     
 

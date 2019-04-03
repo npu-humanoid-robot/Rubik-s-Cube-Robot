@@ -14,12 +14,12 @@ int main(int argc, char const *argv[])
     // std::cout <<"Cost:"<<trf->getCost()<<std::endl;
     // delete trf;
 
-    Transform* test = new Transform();
-    test->mainControl(0);
-    std::cout <<"minCost: "<<test->getMinCost()<<std::endl;
-    test->printFinalOut();
-    test->printCharResult();
-    delete test;
+    // Transform* test = new Transform();
+    // test->mainControl(0);
+    // std::cout <<"minCost: "<<test->getMinCost()<<std::endl;
+    // test->printFinalOut();
+    // test->printCharResult();
+    // delete test;
 
     Transform* test1 = new Transform();
     test1->mainControl(1);

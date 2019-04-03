@@ -27,12 +27,12 @@ def rotate():
 def main():
     result = []
 
+    result.append(getImage(0))
     result.append(getImage(1))
-    result.append(getImage(2))
     #rotate()
     #time.sleep(2)
+    result.append(getImage(0))
     result.append(getImage(1))
-    result.append(getImage(2))
     
 
     return result

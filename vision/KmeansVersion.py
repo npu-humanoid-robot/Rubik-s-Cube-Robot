@@ -4,7 +4,7 @@ import glob
 from sklearn.cluster import KMeans
 import configparser
 
-from Pretreat import *
+from vision.Pretreat import *
 
 class Img2Status:
     def __init__(self, scalars):

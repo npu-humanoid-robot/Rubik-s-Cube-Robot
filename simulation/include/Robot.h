@@ -37,6 +37,7 @@ public:
   void translate(unsigned char *chain);
   void disorder(char *chain);
   void display() { m_cube.display(); };
+  void output() { m_cube.output(); };
   robot();
   ~robot(){};
 

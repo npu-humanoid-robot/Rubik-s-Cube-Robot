@@ -19,21 +19,22 @@ int main(int argc, char const *argv[])
     while(true)
     {
         robot *test_robot = new robot();
-        Transform *test = new Transform();
+        //Transform *test = new Transform();
         unsigned char *message;
         char list[200];
-        test->mainControl(1);
+        //test->mainControl(1);
         //test->controller();
         cin.getline(list, 200, '\n');
         test_robot->disorder(list);
         test_robot->display();
-        std::cout << "minCost: " << std::dec <<test->getMinCost() << std::endl;
-        test->printCharResult();
-        test->printFinalOut();
+        test_robot->output();
+        //std::cout << "minCost: " << std::dec <<test->getMinCost() << std::endl;
+        //test->printCharResult();
+        //test->printFinalOut();
         //test->printOut();
-        message = test-> getMessage();
-        test_robot->translate(message);
-        test_robot->display();
+        //message = test-> getMessage();
+        //test_robot->translate(message);
+        //test_robot->display();
         
     }
     return 0;
