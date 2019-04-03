@@ -6,6 +6,12 @@
 
 
 #include <transform.h>
+
+#include <Robot.h>
+//Used for UART on raspberry
+#include <wiringPi.h>
+#include <wiringSerial.h>
+
 int main(int argc, char const *argv[])
 {
     // Transform* trf = new Transform();
@@ -21,9 +27,23 @@ int main(int argc, char const *argv[])
     // test->printCharResult();
     // delete test;
 
+    int fd;
+    unsigned char *message;
+
     Transform* test1 = new Transform();
     test1->mainControl(1);
+
+    if (wiringPiSetup() < 0)
+        return 1;
+    if ((fd = serialOpen((char *)"/dev/ttyAMA0", 115200)) < 0)
+        return 1;
+
     std::cout <<"minCost: "<<std::dec<<test1->getMinCost()<<std::endl;
+    message = test->getMessage();
+    serialPrintf(fd, (char *)message);
+    serialPutchar(fd,'\0');
+    printf("Done!");
+    serialClose(fd);
     test1->printFinalOut();
     test1->printCharResult();
     delete test1;
