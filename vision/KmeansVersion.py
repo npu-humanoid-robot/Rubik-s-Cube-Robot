@@ -14,7 +14,10 @@ class Img2Status:
         self.Cluster()
         return 
     def Cluster(self):
-        kmeans_cluster = KMeans(n_clusters=6, n_init=666)
+        init_center = np.ndarray((6, 3))
+        for i in range(6):
+            init_center[i] = self.scalars[6*i+4]
+        kmeans_cluster = KMeans(n_clusters=6, init=init_center)
         kmeans_cluster.fit(self.scalars)
         self.labels = kmeans_cluster.labels_
         return
