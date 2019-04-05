@@ -14,11 +14,7 @@ class Img2Status:
         self.Cluster()
         return 
     def Cluster(self):
-        init_center = np.ndarray((6, 3))
-        for i in range(6):
-            init_center[i] = self.scalars[6*i+4]
-        print(init_center)
-        kmeans_cluster = KMeans(n_clusters=6, init=init_center)
+        kmeans_cluster = KMeans(n_clusters=6)
         kmeans_cluster.fit(self.scalars)
         self.labels = kmeans_cluster.labels_
         return
@@ -37,8 +33,6 @@ if __name__ == "__main__":
     config.read("../configs/vision_pretreat.ini")
     
     pi_pic_root_path  = "../BackupSource/"
-    pic_path = "../BackupSource/*.jpg"
-    #pic_paths = [i for i in glob.glob(pic_path)]
     pic_paths = [pi_pic_root_path+"%d.jpg"%i for i in range(4)]
     pics = []
     for i in pic_paths:
@@ -47,12 +41,10 @@ if __name__ == "__main__":
 
         pics.append(img)
 
-        cv2.imshow("233", img)
-        cv2.waitKey(0)
     pp = Pretreat(pics, config)
     result = pp.GetResult()
-    for i in pp.perspectived_imgs:
-        cv2.imshow("233", i)
+    for i in pp.raw_four_images:
+        cv2.imshow("raw four", i)
         cv2.waitKey()
 
     ya = Img2Status(result)

@@ -71,31 +71,28 @@ color_sample_point_row =[
 ]
 
 class Pretreat:
-    def __init__(self, raw_four_images, config):
-        self.raw_four_images = raw_four_images  # raw images
+    def __init__(self, raw_four_images_, config):
+        self.raw_four_images = raw_four_images_  # raw images
+
         self.SetParams(config)      # get points from config objuect
 
         # Do pretreat
         self.DoPreproc()
+
         self.CutImage()
         self.GetSampleRectAvg()
     def GetResult(self):
         return self.sample_scalars
     def DoPreproc(self):
-        for i in self.raw_four_images:
-            i = cv2.GaussianBlur(i, (7, 7), 0)
-            t_lab = cv2.cvtColor(i, cv2.COLOR_BGR2LAB)
-            t_hsv = cv2.cvtColor(i, cv2.COLOR_BGR2HSV_FULL)
+        for i in range(len(self.raw_four_images)):
+            self.raw_four_images[i] = cv2.GaussianBlur(self.raw_four_images[i], (17, 17), 0)
+            t_lab = cv2.cvtColor(self.raw_four_images[i], cv2.COLOR_BGR2LAB)
+            t_hsv = cv2.cvtColor(self.raw_four_images[i], cv2.COLOR_BGR2HSV_FULL)
 
-            t_lab_cs = cv2.split(t_lab)
-            t_hsv_cs = cv2.split(t_hsv)
+            l, a, b = cv2.split(t_lab)
+            h, s, v = cv2.split(t_hsv)
 
-            t_lab_cs[0] = t_hsv_cs[0]
-
-            hab = cv2.merge(t_lab_cs)
-            
-            i = hab
-
+            self.raw_four_images[i] = cv2.merge([h, a, b]).copy()
     def CutImage(self):
         # do 透视变换
         self.perspectived_imgs = []

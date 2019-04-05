@@ -45,7 +45,7 @@ if __name__ == "__main__":
     config = configparser.ConfigParser()
     config.read("../configs/vision_pretreat.ini")
 
-    pic_path = "../BackupSource/*.jpg"
+    pic_path = "../BackupSource/test_pics/*.jpg"
     pic_paths = [i for i in glob.glob(pic_path)]
     pics = []
     for i in pic_paths:
@@ -71,7 +71,7 @@ if __name__ == "__main__":
 
     classifer = SvmPredict("svm_linear.model")
     
-    test_pic_path = "../BackupSource/test_pics/*.jpg"
+    test_pic_path = "../BackupSource/*.jpg"
     test_pic_paths = [i for i in glob.glob(test_pic_path)]
     test_pics = []
     for i in test_pic_paths:

@@ -3,17 +3,19 @@ from Pretreat import *
 import glob
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-
+import numpy as np
+from sklearn.decomposition import PCA
 
 if __name__ == "__main__":
     # load raw pics and config 
     pic_path = "../BackupSource/*.jpg"
     pic_paths = [i for i in glob.glob(pic_path)]
     pics = []
-    for i in pic_paths:
-        img = cv2.imread(i)
-        print(i)
-        pics.append(img)
+    for j in pic_paths:
+        i = cv2.imread(j)
+        print(j)
+
+        pics.append(i)
     
     config = configparser.ConfigParser()
     config.read("../configs/vision_pretreat.ini")
@@ -21,6 +23,12 @@ if __name__ == "__main__":
     # get color scalars
     pp = Pretreat(pics, config)
     result = pp.sample_scalars
+
+    arr = np.array(result)
+    pca = PCA(n_components = 2)
+    reduced_X = pca.fit_transform(arr)
+    plt.scatter(reduced_X[:,0],reduced_X[:,1])
+    plt.show() 
 
     # show scalars
     fig = plt.figure()
