@@ -4,7 +4,7 @@ import glob
 from sklearn.cluster import KMeans
 import configparser
 
-from vision.Pretreat import *
+from Pretreat import *
 
 class Img2Status:
     def __init__(self, scalars):
@@ -14,7 +14,7 @@ class Img2Status:
         self.Cluster()
         return 
     def Cluster(self):
-        kmeans_cluster = KMeans(n_clusters=6, n_init=666, tol=0.1)
+        kmeans_cluster = KMeans(n_clusters=6, tol=0.1)
         kmeans_cluster.fit(self.scalars)
         self.labels = kmeans_cluster.labels_
         return
@@ -32,7 +32,7 @@ if __name__ == "__main__":
     config = configparser.ConfigParser()
     config.read("../configs/vision_pretreat.ini")
 
-    pic_path = "../BackupSource/test_pics/*.jpg"
+    pic_path = "../BackupSource/*.jpg"
     pic_paths = [i for i in glob.glob(pic_path)]
     pics = []
     for i in pic_paths:

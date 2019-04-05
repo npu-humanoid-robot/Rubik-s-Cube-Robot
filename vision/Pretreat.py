@@ -16,7 +16,59 @@ import numpy as np
 import cv2
 import configparser
 
+color_sample_point_col =[
+    # U
+    [45, 45, 45, 
+     45, 45, 45, 
+     45, 45, 45], 
+    # R
+    [45, 45, 45, 
+     45, 45, 45, 
+     45, 45, 45],
+    # F
+    [45, 45, 45, 
+     45, 45, 45, 
+     45, 45, 45],
+    # D
+    [45, 45, 45, 
+     45, 45, 45, 
+     45, 45, 45],
+    # L
+    [45, 45, 45, 
+     60, 45, 30, 
+     45, 45, 45],
+    # B
+    [45, 45, 45, 
+     60, 45, 30, 
+     45, 45, 45],
+]
 
+color_sample_point_row =[
+    # U
+    [45, 45, 45, 
+     45, 45, 45, 
+     45, 45, 45], 
+    # R
+    [45, 45, 45, 
+     45, 45, 45, 
+     45, 45, 45],
+    # F
+    [45, 45, 45, 
+     45, 45, 45, 
+     45, 45, 45],
+    # D
+    [45, 60, 45, 
+     45, 45, 45, 
+     45, 30, 45],
+    # L
+    [45, 45, 45, 
+     45, 45, 45, 
+     45, 45, 45],
+    # B
+    [45, 45, 45, 
+     45, 45, 45, 
+     45, 45, 45],
+]
 
 class Pretreat:
     def __init__(self, raw_four_images, config):
@@ -81,8 +133,8 @@ class Pretreat:
         for j in range(6):
             for i in range(9):
                 t_sum = np.ndarray([3,], dtype='float64')
-                rect_cols = 100*(i%3) + 45
-                rect_rows = 100*(i//3) + 45
+                rect_cols = 100*(i%3) + color_sample_point_col[j][i]
+                rect_rows = 100*(i//3) + color_sample_point_row[j][i]
                 for row_i in range(10):
                     for col_i in range(10):
                         t_sum += self.perspectived_imgs[j][rect_rows+row_i, rect_cols+col_i]
