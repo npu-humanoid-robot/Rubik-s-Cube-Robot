@@ -14,7 +14,7 @@ class Img2Status:
         self.Cluster()
         return 
     def Cluster(self):
-        kmeans_cluster = KMeans(n_clusters=6, tol=0.1)
+        kmeans_cluster = KMeans(n_clusters=6)
         kmeans_cluster.fit(self.scalars)
         self.labels = kmeans_cluster.labels_
         return
