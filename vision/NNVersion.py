@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 import glob
-from sklearn.cluster import KMeans
+from sklearn import neighbors
 import configparser
 
 from Pretreat import *
@@ -11,17 +11,22 @@ class Img2Status:
         self.scalars = scalars 
         # for i in self.scalars:
         #     i = (i[1], i[2])
-        self.Cluster()
-        return 
-    def Cluster(self):
-        init_center = np.ndarray((6, 3))
-        for i in range(6):
-            init_center[i] = self.scalars[6*i+4]
-        print(init_center)
-        kmeans_cluster = KMeans(n_clusters=6, init=init_center)
-        kmeans_cluster.fit(self.scalars)
-        self.labels = kmeans_cluster.labels_
+        self.NN()
         return
+    def NN(self): 
+        train_data = np.array([self.scalars[6*i+4] for i in range(6)])
+        train_labels = np.array([i for i in range(6)]) 
+        print(train_data.shape)
+        print(train_labels.shape)
+        for i in range(6):
+            train_data[i] = self.scalars[6*i+4]
+            train_labels[i] = i
+        print(train_data)
+        print(train_labels)
+        nn = neighbors.KNeighborsClassifier()
+        nn.fit(train_data, train_labels)
+
+        self.labels = nn.predict(self.scalars)
     def ToStatus(self):
         label2str = {}
         faces = ['U', 'R', 'F', 'D', 'L', 'B']
@@ -31,7 +36,6 @@ class Img2Status:
 
         status = [label2str[i] for i in self.labels]
         self.status = "".join(status)
-
 if __name__ == "__main__":
     config = configparser.ConfigParser()
     config.read("../configs/vision_pretreat.ini")
@@ -56,7 +60,7 @@ if __name__ == "__main__":
         cv2.waitKey()
 
     ya = Img2Status(result)
-    ya.Cluster()
+    ya.NN()
     labels = ya.labels
     for i in range(6):
         for j in range(9):
