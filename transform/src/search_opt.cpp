@@ -45,7 +45,7 @@ void Transform::dfs_opt(int depth) {
                     D1WithBorFOpt(in[i+2]);
                 else if(in[i] == 'D' && in[i+1] == '\'') //D3接B或F
                     D3WithBorFOpt(in[i+2]);
-                cout <<"Finish opt"<<endl;
+                //cout <<"Finish opt"<<endl;
                 dfs_opt(depth+1);
                 numAction = iniActionNum;
             }

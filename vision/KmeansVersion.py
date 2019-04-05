@@ -14,7 +14,7 @@ class Img2Status:
         self.Cluster()
         return 
     def Cluster(self):
-        kmeans_cluster = KMeans(n_clusters=6)
+        kmeans_cluster = KMeans(n_clusters=6, n_init=666)
         kmeans_cluster.fit(self.scalars)
         self.labels = kmeans_cluster.labels_
         return
@@ -31,9 +31,11 @@ class Img2Status:
 if __name__ == "__main__":
     config = configparser.ConfigParser()
     config.read("../configs/vision_pretreat.ini")
-
+    
+    pi_pic_root_path  = "../BackupSource/"
     pic_path = "../BackupSource/*.jpg"
-    pic_paths = [i for i in glob.glob(pic_path)]
+    #pic_paths = [i for i in glob.glob(pic_path)]
+    pic_paths = [pi_pic_root_path+"%d.jpg"%i for i in range(4)]
     pics = []
     for i in pic_paths:
         img = cv2.imread(i)

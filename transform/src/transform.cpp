@@ -541,7 +541,7 @@ void Transform::printFinalOut() {
     int i = 0;
     while(true)
     {
-        cout <<finalOut[i];
+        cout<<std::hex<<finalOut[i];
         if(finalOut[i] == '\0')
             break;
         i++;

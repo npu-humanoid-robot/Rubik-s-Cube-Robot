@@ -18,7 +18,7 @@ def getImage(id):
 
 
 def rotate():
-    ser = serial.Serial("/dev/ttyAMA0",921600)
+    ser = serial.Serial("/dev/ttyAMA0",115200)
     hex_str = bytes.fromhex('ff ff 03 59 6d ae 74 00')
     ser.write(hex_str)
     ser.close()
@@ -26,14 +26,15 @@ def rotate():
 
 def main():
     result = []
-
+    print("begin to get image")
     result.append(getImage(0))
     result.append(getImage(1))
-    #rotate()
-    #time.sleep(2)
+    print("Got image 1&2")
+    rotate()
+    time.sleep(20)
     result.append(getImage(0))
     result.append(getImage(1))
-    
+    print("Got image 3&4")
 
     return result
 

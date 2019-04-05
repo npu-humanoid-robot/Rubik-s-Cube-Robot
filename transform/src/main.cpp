@@ -44,8 +44,8 @@ int main(int argc, char const *argv[])
     serialPutchar(fd,'\0');
     printf("Done!\n");
     serialClose(fd);
-    test1->printFinalOut();
-    test1->printCharResult();
+    //test1->printFinalOut();
+    //test1->printCharResult();
     delete test1;
     
     return 0;
