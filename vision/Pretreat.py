@@ -129,17 +129,16 @@ class Pretreat:
         self.sample_scalars = [] 
         for j in range(6):
             for i in range(9):
-                t_sum = np.ndarray([3,], dtype='float64')
-                rect_cols = 100*(i%3) + color_sample_point_col[j][i]
+                t_sum = np.zeros(3, dtype='float64')
+                rect_cols = 100*(i%3)  + color_sample_point_col[j][i]
                 rect_rows = 100*(i//3) + color_sample_point_row[j][i]
                 for row_i in range(10):
                     for col_i in range(10):
                         t_sum += self.perspectived_imgs[j][rect_rows+row_i, rect_cols+col_i]
-                t_sum /= 100
+                t_sum = t_sum / 100.0
 
                 cv2.rectangle(self.perspectived_imgs[j], (rect_cols, rect_rows), (rect_cols+10, rect_rows+10), (0, 0, 0), 5)
                 self.sample_scalars.append(t_sum)
-        # return them
         return 
 
     # params related

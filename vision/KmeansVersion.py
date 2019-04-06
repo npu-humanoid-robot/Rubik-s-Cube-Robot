@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import glob
 from sklearn.cluster import KMeans
+from sklearn.decomposition import PCA
 import configparser
 
 from Pretreat import *
@@ -43,10 +44,17 @@ if __name__ == "__main__":
 
     pp = Pretreat(pics, config)
     result = pp.GetResult()
+
+    arr = np.array(result)
+    pca = PCA(n_components = 2)
+    result = pca.fit_transform(arr)
+
     for i in pp.raw_four_images:
         cv2.imshow("raw four", i)
         cv2.waitKey()
-
+    for i in pp.perspectived_imgs:
+        cv2.imshow("single img", i)
+        cv2.waitKey()
     ya = Img2Status(result)
     ya.Cluster()
     labels = ya.labels
