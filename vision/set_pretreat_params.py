@@ -52,7 +52,7 @@ if __name__ == "__main__":
         if key == ord('q'): 
             break
         elif key == ord('c'):
-            CP_OPEN = 1-CP_OPEN
+            CP_OPEN = 2-CP_OPEN
             print(CP_OPEN)
             cp.open(CP_OPEN)
         elif key-ord('1') <= 3 and key != -1:

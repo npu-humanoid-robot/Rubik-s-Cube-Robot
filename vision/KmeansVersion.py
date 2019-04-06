@@ -67,23 +67,26 @@ if __name__ == "__main__":
     pp = Pretreat(pics, config)
     result = pp.GetResult()
 
-    arr = np.array(result)
-    pca = PCA(n_components = 2)
-    result = pca.fit_transform(arr)
+    # arr = np.array(result)
+    # pca = PCA(n_components = 3)
+    # result = pca.fit_transform(arr)
 
-    for i in pp.raw_four_images:
-        cv2.imshow("raw four", i)
-        cv2.waitKey()
+    # for i in pp.raw_four_images:
+    #     cv2.imshow("raw four", i)
+    #     cv2.waitKey()
     for i in pp.perspectived_imgs:
-        cv2.imshow("single img", i)
+        cv2.imshow("single img", i[:,:,3])
         cv2.waitKey()
     ya = Img2Status(result)
     ya.Cluster()
     labels = ya.labels
-    for i in range(6):
-        for j in range(9):
-            print(labels[i*9+j], end=" ")
-        print()
+    
     ya.ToStatus()
+    for i in range(6):
+        for j in range( 3):
+            for k in range(3):
+                print(ya.status[i*9+3*j+k], end=" ")
+            print()
+        print()
     print(ya.status)
-    ya.ToPics()
+    # ya.ToPics()

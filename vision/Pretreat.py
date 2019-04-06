@@ -85,14 +85,17 @@ class Pretreat:
         return self.sample_scalars
     def DoPreproc(self):
         for i in range(len(self.raw_four_images)):
-            self.raw_four_images[i] = cv2.GaussianBlur(self.raw_four_images[i], (17, 17), 0)
+            self.raw_four_images[i] = cv2.GaussianBlur(self.raw_four_images[i], (5, 5), 0)
             t_lab = cv2.cvtColor(self.raw_four_images[i], cv2.COLOR_BGR2LAB)
             t_hsv = cv2.cvtColor(self.raw_four_images[i], cv2.COLOR_BGR2HSV_FULL)
 
-            l, a, b = cv2.split(t_lab)
-            h, s, v = cv2.split(t_hsv)
+            # l, a, b = cv2.split(t_lab)
+            # h, s, v = cv2.split(t_hsv)
 
-            self.raw_four_images[i] = cv2.merge([h, a, b]).copy()
+            # self.raw_four_images[i] = cv2.merge([l, h, a, b]).copy()
+            self.raw_four_images[i] = np.concatenate((t_lab, t_hsv, self.raw_four_images[i]), axis = 2)
+            # print(self.raw_four_images[i].shape)
+            # print(np.concatenate((self.raw_four_images[0], self.raw_four_images[1]), axis = 2).shape)
     def CutImage(self):
         # do 透视变换
         self.perspectived_imgs = []
@@ -129,7 +132,7 @@ class Pretreat:
         self.sample_scalars = [] 
         for j in range(6):
             for i in range(9):
-                t_sum = np.zeros(3, dtype='float64')
+                t_sum = np.zeros(9, dtype='float64')
                 rect_cols = 100*(i%3)  + color_sample_point_col[j][i]
                 rect_rows = 100*(i//3) + color_sample_point_row[j][i]
                 for row_i in range(10):
@@ -137,7 +140,7 @@ class Pretreat:
                         t_sum += self.perspectived_imgs[j][rect_rows+row_i, rect_cols+col_i]
                 t_sum = t_sum / 100.0
 
-                cv2.rectangle(self.perspectived_imgs[j], (rect_cols, rect_rows), (rect_cols+10, rect_rows+10), (0, 0, 0), 5)
+                # cv2.rectangle(self.perspectived_imgs[j], (rect_cols, rect_rows), (rect_cols+10, rect_rows+10), (0, 0, 0), 5)
                 self.sample_scalars.append(t_sum)
         return 
 
