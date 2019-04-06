@@ -29,6 +29,28 @@ class Img2Status:
         status = [label2str[i] for i in self.labels]
         self.status = "".join(status)
 
+    # turn status string to visual pics
+    def ToPics(self):
+        faces = ['U', 'R', 'F', 'D', 'L', 'B']
+        color = [(255, 255, 255), (0, 0, 255), (0, 255, 0), (0, 255, 255), (0, 127, 255), (255, 0, 0)]
+        face2color = dict(zip(faces, color))
+
+        anchor = [(0, 300), (300, 600), (300, 300), (600, 300), (300, 0), (300, 900)]
+
+        pic = np.zeros((900, 1200, 3), dtype="uint8")
+
+        cv2.namedWindow("pic", cv2.WINDOW_NORMAL)
+        for i in range(6):
+            for j in range(9):
+                t_col = anchor[i][1] + 100*(j%3)
+                t_row = anchor[i][0] + 100*(j//3)
+                cv2.rectangle(pic, (t_col, t_row), (t_col+45, t_row+45), face2color[self.status[6*i+j]], 6)
+            cv2.imshow("pic", pic)
+            cv2.waitKey()
+
+        cv2.imshow("pic", pic)
+        cv2.waitKey()
+
 if __name__ == "__main__":
     config = configparser.ConfigParser()
     config.read("../configs/vision_pretreat.ini")
@@ -64,3 +86,4 @@ if __name__ == "__main__":
         print()
     ya.ToStatus()
     print(ya.status)
+    ya.ToPics()
