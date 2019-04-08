@@ -24,7 +24,7 @@ def MouseHandler(event, x, y, flags, param):
         lab_pix = cv2.cvtColor(bgr_pix, cv2.COLOR_BGR2LAB)
 
         whole_vec = np.concatenate((bgr_pix, hsv_pix, lab_pix), axis = 2)
-        print(whole_vec.shape)
+        print(whole_vec[0][0].shape)
         train_label.append(current_color_pointer)
         train_data.append(whole_vec)
         print(whole_vec, current_color_pointer)
@@ -52,7 +52,7 @@ if __name__ == "__main__":
         cv2.putText(frame, "%s mode"%color[current_color_pointer],  (120, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.5, color2bgr[color[current_color_pointer]], 2)
 
 
-
+        print(train_label)
         cv2.imshow(window_name, frame)
         key = cv2.waitKey(1)
         if key == ord('s'): 
@@ -66,8 +66,9 @@ if __name__ == "__main__":
             current_color_pointer += 1
             current_color_pointer %= 6
         elif key == ord('d'):
-            train_data = []
-            train_label = []
+            if len(train_data) > 0:
+                del train_data[-1]
+                del train_label[-1]
         elif key == ord('q'):
             break
         elif key == ord('c'):

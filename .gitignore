@@ -47,3 +47,4 @@ build/
 __pytcache__
 *.pyc
 *.model
+*.bin
