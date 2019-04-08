@@ -34,5 +34,5 @@ if __name__ == "__main__":
     print(train_data.shape)
 
     trainer = SvmTrain(train_data, train_label)
-    trainer.Train("./rbf.model")
+    trainer.Train("rbf.model")
     trainer.GetAccuracy()

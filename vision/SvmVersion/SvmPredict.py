@@ -18,15 +18,15 @@ clf = None
 
 def MouseHandler(event, x, y, flags, param):
     global predict_label
-    if event == cv2.EVENT_LBUTTONDOWN :
-        bgr_pix = frame[y:y+1, x:x+1]
-        hsv_pix = cv2.cvtColor(bgr_pix, cv2.COLOR_BGR2HSV_FULL)
-        lab_pix = cv2.cvtColor(bgr_pix, cv2.COLOR_BGR2LAB)
 
-        whole_vec = np.concatenate((bgr_pix, hsv_pix, lab_pix), axis = 2).reshape(1, 9)
+    bgr_pix = frame[y:y+1, x:x+1]
+    hsv_pix = cv2.cvtColor(bgr_pix, cv2.COLOR_BGR2HSV_FULL)
+    lab_pix = cv2.cvtColor(bgr_pix, cv2.COLOR_BGR2LAB)
 
-        predict_label = int(clf.predict(whole_vec))
-        print(color[predict_label])
+    whole_vec = np.concatenate((bgr_pix, hsv_pix, lab_pix), axis = 2).reshape(1, 9)
+
+    predict_label = int(clf.predict(whole_vec))
+    print(color[predict_label])
     return 
 
 if __name__ == "__main__":
