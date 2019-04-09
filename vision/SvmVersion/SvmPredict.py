@@ -12,7 +12,7 @@ color2bgr = dict(zip(color, bgr_color))
 
 window_name = "color test"
 
-model_name = 'rbf.model'
+model_name = 'now.model'
 
 clf = None
 
@@ -48,3 +48,7 @@ if __name__ == "__main__":
         key = cv2.waitKey(1)
         if key == ord('q'):
             break
+        elif key == ord('c'):
+            CP_OPEN = 2-CP_OPEN
+            print(CP_OPEN)
+            cp.open(CP_OPEN)
