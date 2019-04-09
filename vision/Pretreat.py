@@ -89,13 +89,7 @@ class Pretreat:
             t_lab = cv2.cvtColor(self.raw_four_images[i], cv2.COLOR_BGR2LAB)
             t_hsv = cv2.cvtColor(self.raw_four_images[i], cv2.COLOR_BGR2HSV_FULL)
 
-            # l, a, b = cv2.split(t_lab)
-            # h, s, v = cv2.split(t_hsv)
-
-            # self.raw_four_images[i] = cv2.merge([l, h, a, b]).copy()
-            self.raw_four_images[i] = np.concatenate((t_lab, t_hsv, self.raw_four_images[i]), axis = 2)
-            # print(self.raw_four_images[i].shape)
-            # print(np.concatenate((self.raw_four_images[0], self.raw_four_images[1]), axis = 2).shape)
+            self.raw_four_images[i] = np.concatenate((self.raw_four_images[i], t_hsv, t_lab), axis = 2)
     def CutImage(self):
         # do 透视变换
         self.perspectived_imgs = []
