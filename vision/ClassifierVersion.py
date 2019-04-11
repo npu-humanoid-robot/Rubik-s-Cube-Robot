@@ -45,6 +45,8 @@ class Img2Status:
 
 if __name__ == "__main__":
     from Pretreat import *
+    import datetime
+
 
     config = configparser.ConfigParser()
     config.read("../configs/vision_pretreat.ini")
@@ -58,9 +60,15 @@ if __name__ == "__main__":
 
         pics.append(img)
     
+    starttime = datetime.datetime.now()
     pp = Pretreat(pics, config)
     result = pp.GetResult()
-    
+    for i in pp.perspectived_imgs:
+        cv2.imshow("233", i[::,3])
+        cv2.waitKey()
     ya = Img2Status(result)
+    endtime = datetime.datetime.now()
+
+    print("cost: ", (endtime-starttime))
     print(ya.status)
     ya.ToPics()

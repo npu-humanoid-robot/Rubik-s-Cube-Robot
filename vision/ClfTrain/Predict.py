@@ -1,6 +1,8 @@
 import cv2
 import numpy as np
 import pickle
+import time
+
 
 CP_OPEN = 0
 frame = None
@@ -25,8 +27,12 @@ def MouseHandler(event, x, y, flags, param):
 
     whole_vec = np.concatenate((bgr_pix, hsv_pix, lab_pix), axis = 2).reshape(1, 9)
 
+    starttime = time.time()
     predict_label = int(clf.predict(whole_vec))
+    endtime = time.time()
+
     print(color[predict_label])
+    print("take time:", (endtime-starttime))
     return 
 
 if __name__ == "__main__":
