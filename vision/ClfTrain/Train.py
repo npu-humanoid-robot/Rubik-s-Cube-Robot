@@ -26,12 +26,12 @@ class SvmTrain:
     def Train(self, save_path):
         # self.classifier = KMeans(n_clusters=6)
         # self.classifier = AdaBoostClassifier()
-        self.classifier = MLPClassifier(hidden_layer_sizes=(100, 100, 100)) 
+        # self.classifier = MLPClassifier(hidden_layer_sizes=(100, 100, 100)) 
         # self.classifier = GradientBoostingClassifier()
         # self.classifier = KNeighborsClassifier(n_neighbors=5)
         # self.classifier = RandomForestClassifier()
         # self.classifier = DecisionTreeClassifier()
-        # self.classifier = SVC(kernel='linear', decision_function_shape='ovr')
+        self.classifier = SVC(kernel='linear', decision_function_shape='ovr')
         # self.classifier = LinearSVC()
 
         self.classifier.fit(self.train_data, self.train_label)
