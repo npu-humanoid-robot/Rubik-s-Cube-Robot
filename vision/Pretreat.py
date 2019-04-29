@@ -74,14 +74,16 @@ color_sample_point_row =[
 class Pretreat:
     def __init__(self,  config):
         self.SetParams(config)      # get points from config objuect
-        
+
     def GetResult(self, raw_four_images_):
         self.raw_four_images = raw_four_images_
 
         self.DoPreproc()
-
+        
         self.CutImage()
+
         self.GetSampleRectAvg()
+
         self.To9Dim()
 
         return self.sample_scalars
@@ -90,7 +92,6 @@ class Pretreat:
             self.raw_four_images[i] = cv2.GaussianBlur(self.raw_four_images[i], (5, 5), 0)    # make the scalars up to 9 dimension
     def To9Dim(self):
         for i in range(len(self.sample_scalars)):
-            self.sample_scalars[i] = self.sample_scalars[i].reshape(1, 1, 3)
             t_lab = cv2.cvtColor(self.sample_scalars[i], cv2.COLOR_BGR2LAB)
             t_hsv = cv2.cvtColor(self.sample_scalars[i], cv2.COLOR_BGR2HSV_FULL)
 
@@ -123,7 +124,6 @@ class Pretreat:
         )
         # 改顺序
         self.perspectived_imgs[2], self.perspectived_imgs[4] = self.perspectived_imgs[4], self.perspectived_imgs[2]
-        return 
     
     def GetSampleRectAvg(self):
         # sum the scalar and get avg
@@ -131,18 +131,14 @@ class Pretreat:
         self.sample_scalars = [] 
         for j in range(6):
             for i in range(9):
-                t_sum = np.zeros(3, dtype='float64')
                 rect_cols = 100*(i%3)  + color_sample_point_col[j][i]
                 rect_rows = 100*(i//3) + color_sample_point_row[j][i]
-                for row_i in range(10):
-                    for col_i in range(10):
-                        t_sum += self.perspectived_imgs[j][rect_rows+row_i, rect_cols+col_i]
-                t_sum = t_sum / 100.0
+
+                t_sum = (self.perspectived_imgs[j][rect_rows:rect_rows+10, rect_cols:rect_cols+10].sum(axis=1).sum(axis=0)/100.0).reshape(1,1,3)
+                t_sum = t_sum.astype(np.uint8)
 
                 cv2.rectangle(self.perspectived_imgs[j], (rect_cols, rect_rows), (rect_cols+10, rect_rows+10), (0, 0, 0), 5)
-                t_sum = t_sum.astype(np.uint8)
                 self.sample_scalars.append(t_sum)
-        return 
 
     # params related
     # store & read can be done by the module :-)
