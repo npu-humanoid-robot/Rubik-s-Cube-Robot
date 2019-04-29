@@ -14,7 +14,7 @@ color2bgr = dict(zip(color, bgr_color))
 
 window_name = "color test"
 
-model_name = 'now.model'
+model_name = './now.model'
 
 clf = None
 
@@ -28,6 +28,7 @@ def MouseHandler(event, x, y, flags, param):
     whole_vec = np.concatenate((bgr_pix, hsv_pix, lab_pix), axis = 2).reshape(1, 9)
 
     starttime = time.time()
+    # for i in range(54):
     predict_label = int(clf.predict(whole_vec))
     endtime = time.time()
 

@@ -8,7 +8,7 @@ class Img2Status:
         sample_num = len(scalars)
         self.scalars = np.array(scalars).reshape(sample_num, 9)
 
-        f = open("./SvmTrain/now.model", 'rb')
+        f = open("./ClfTrain/now.model", 'rb')
         self.clf = pickle.load(f)
 
         # do classification
@@ -64,7 +64,7 @@ if __name__ == "__main__":
     pp = Pretreat(pics, config)
     result = pp.GetResult()
     for i in pp.perspectived_imgs:
-        cv2.imshow("233", i[::,3])
+        cv2.imshow("233", i[::,::,::3])
         cv2.waitKey()
     ya = Img2Status(result)
     endtime = datetime.datetime.now()
