@@ -12,6 +12,7 @@ Date: 2019.01.29->2019.01.30
 # |          |        |
 # rect_6---rect_7---rect_8
 
+import copy
 import numpy as np
 import cv2
 import configparser
@@ -71,25 +72,29 @@ color_sample_point_row =[
 ]
 
 class Pretreat:
-    def __init__(self, raw_four_images_, config):
-        self.raw_four_images = raw_four_images_  # raw images
-
+    def __init__(self,  config):
         self.SetParams(config)      # get points from config objuect
+        
+    def GetResult(self, raw_four_images_):
+        self.raw_four_images = raw_four_images_
 
-        # Do pretreat
         self.DoPreproc()
 
         self.CutImage()
         self.GetSampleRectAvg()
-    def GetResult(self):
+        self.To9Dim()
+
         return self.sample_scalars
     def DoPreproc(self):
         for i in range(len(self.raw_four_images)):
-            self.raw_four_images[i] = cv2.GaussianBlur(self.raw_four_images[i], (5, 5), 0)
-            t_lab = cv2.cvtColor(self.raw_four_images[i], cv2.COLOR_BGR2LAB)
-            t_hsv = cv2.cvtColor(self.raw_four_images[i], cv2.COLOR_BGR2HSV_FULL)
+            self.raw_four_images[i] = cv2.GaussianBlur(self.raw_four_images[i], (5, 5), 0)    # make the scalars up to 9 dimension
+    def To9Dim(self):
+        for i in range(len(self.sample_scalars)):
+            self.sample_scalars[i] = self.sample_scalars[i].reshape(1, 1, 3)
+            t_lab = cv2.cvtColor(self.sample_scalars[i], cv2.COLOR_BGR2LAB)
+            t_hsv = cv2.cvtColor(self.sample_scalars[i], cv2.COLOR_BGR2HSV_FULL)
 
-            self.raw_four_images[i] = np.concatenate((self.raw_four_images[i], t_hsv, t_lab), axis = 2)
+            self.sample_scalars[i] = np.concatenate((self.sample_scalars[i], t_hsv, t_lab), axis = 2)
     def CutImage(self):
         # do 透视变换
         self.perspectived_imgs = []
@@ -126,7 +131,7 @@ class Pretreat:
         self.sample_scalars = [] 
         for j in range(6):
             for i in range(9):
-                t_sum = np.zeros(9, dtype='float64')
+                t_sum = np.zeros(3, dtype='float64')
                 rect_cols = 100*(i%3)  + color_sample_point_col[j][i]
                 rect_rows = 100*(i//3) + color_sample_point_row[j][i]
                 for row_i in range(10):
@@ -134,7 +139,8 @@ class Pretreat:
                         t_sum += self.perspectived_imgs[j][rect_rows+row_i, rect_cols+col_i]
                 t_sum = t_sum / 100.0
 
-                # cv2.rectangle(self.perspectived_imgs[j], (rect_cols, rect_rows), (rect_cols+10, rect_rows+10), (0, 0, 0), 5)
+                cv2.rectangle(self.perspectived_imgs[j], (rect_cols, rect_rows), (rect_cols+10, rect_rows+10), (0, 0, 0), 5)
+                t_sum = t_sum.astype(np.uint8)
                 self.sample_scalars.append(t_sum)
         return 
 

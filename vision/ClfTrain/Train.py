@@ -24,15 +24,21 @@ class SvmTrain:
         print(self.train_data.shape)
         
     def Train(self, save_path):
-        # self.classifier = KMeans(n_clusters=6)
-        # self.classifier = AdaBoostClassifier()
-        # self.classifier = MLPClassifier(hidden_layer_sizes=(100, 100, 100)) 
-        # self.classifier = GradientBoostingClassifier()
-        # self.classifier = KNeighborsClassifier(n_neighbors=5)
-        # self.classifier = RandomForestClassifier()
-        # self.classifier = DecisionTreeClassifier()
-        self.classifier = SVC(kernel='linear', decision_function_shape='ovr')
-        # self.classifier = LinearSVC()
+        print("want to train on the old model ?(y/n)")
+        ans = input()
+        if ans in ['y', 'Y']:
+            f = open("./now.model", 'rb')
+            self.classifier = pickle.load(f)
+        else:
+            # self.classifier = KMeans(n_clusters=6)
+            # self.classifier = AdaBoostClassifier()
+            # self.classifier = MLPClassifier(hidden_layer_sizes=(100, 100, 100)) 
+            # self.classifier = GradientBoostingClassifier()
+            # self.classifier = KNeighborsClassifier(n_neighbors=5)
+            # self.classifier = RandomForestClassifier()
+            # self.classifier = DecisionTreeClassifier()
+            self.classifier = SVC(kernel='linear', decision_function_shape='ovr')
+            # self.classifier = LinearSVC()
 
         self.classifier.fit(self.train_data, self.train_label)
         # self.classifier.fit(self.train_data)

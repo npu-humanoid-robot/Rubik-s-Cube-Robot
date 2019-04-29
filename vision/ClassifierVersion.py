@@ -2,19 +2,19 @@ import cv2
 import numpy as np
 import pickle
 import configparser
+import time
 
 class Img2Status:
-    def __init__(self, scalars):
-        sample_num = len(scalars)
-        self.scalars = np.array(scalars).reshape(sample_num, 9)
-
+    def __init__(self):
         f = open("./ClfTrain/now.model", 'rb')
         self.clf = pickle.load(f)
 
-        # do classification
-        self.labels = self.clf.predict(self.scalars)
+    def GetResult(self, scalars):
+        sample_num = len(scalars)
+        self.scalars = np.array(scalars).reshape(sample_num, 9)
         self.ToStatus()
     def ToStatus(self):
+        self.labels = self.clf.predict(self.scalars)
         label2str = {}
         faces = ['U', 'R', 'F', 'D', 'L', 'B']
         for i in range(6):
@@ -45,8 +45,6 @@ class Img2Status:
 
 if __name__ == "__main__":
     from Pretreat import *
-    import datetime
-
 
     config = configparser.ConfigParser()
     config.read("../configs/vision_pretreat.ini")
@@ -60,15 +58,27 @@ if __name__ == "__main__":
 
         pics.append(img)
     
-    starttime = datetime.datetime.now()
-    pp = Pretreat(pics, config)
-    result = pp.GetResult()
-    for i in pp.perspectived_imgs:
-        cv2.imshow("233", i[::,::,::3])
-        cv2.waitKey()
-    ya = Img2Status(result)
-    endtime = datetime.datetime.now()
+    
+    pp = Pretreat(config)
+    ya = Img2Status()
 
-    print("cost: ", (endtime-starttime))
+    starttime = time.time()
+
+    result = pp.GetResult(pics)
+
+    part1_time = time.time()
+
+    ya.GetResult(result)
+    endtime = time.time()
+
+    print('part 1 cost:', part1_time-starttime)
+    print('part2 cost:', endtime-part1_time)
+    print("cost:", (endtime-starttime))
+
+    for i in pp.perspectived_imgs:
+        cv2.imshow("233", i)
+        cv2.waitKey()
+
+    
     print(ya.status)
     ya.ToPics()
