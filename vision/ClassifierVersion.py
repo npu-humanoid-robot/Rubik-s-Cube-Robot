@@ -5,8 +5,8 @@ import configparser
 import time
 
 class Img2Status:
-    def __init__(self):
-        f = open("./ClfTrain/now.model", 'rb')
+    def __init__(self, clf_path):
+        f = open(clf_path, 'rb')
         self.clf = pickle.load(f)
 
     def GetResult(self, scalars):
@@ -20,7 +20,7 @@ class Img2Status:
         for i in range(6):
             label2str[self.labels[i*9+4]] = faces[i]
             # print(self.labels[i*9+4], faces[i])
-        status = [label2str[i] for i in self.labels]
+        status = [faces[i] for i in self.labels]
         self.status = "".join(status)
     def ToPics(self, raw_pics):
         color = [(255, 255, 255), (0, 0, 255), (0, 255, 0), (0, 255, 255), (0, 127, 255), (255, 0, 0)]
