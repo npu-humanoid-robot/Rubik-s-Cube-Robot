@@ -1,6 +1,6 @@
 import os
 import numpy as np
-# import serial
+import serial
 import cv2
 import configparser
 import pickle
@@ -14,11 +14,10 @@ from ClassifierVersion import Img2Status
 
 
 def rotate():
-    pass
-    # ser = serial.Serial("/dev/ttyAMA0",115200)
-    # hex_str = bytes.fromhex('ff ff 03 59 6d ae 74 00')
-    # ser.write(hex_str)
-    # ser.close()
+    ser = serial.Serial("/dev/ttyAMA0",115200)
+    hex_str = bytes.fromhex('ff ff 03 59 6d ae 74 00')
+    ser.write(hex_str)
+    ser.close()
 
 def make_sure_open(cp, idx):
     __, frame = cp.read()
