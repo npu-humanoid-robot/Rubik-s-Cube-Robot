@@ -1,33 +1,30 @@
 import os
 import numpy as np
-import acquireImage
+import serial
 import cv2
 import configparser
+import pickle
 import time
 
 import sys
-#sys.path.append("../")
 sys.path.insert(0, "../")
 from vision.Pretreat import Pretreat 
 from vision.KmeansVersion import Img2Status
 
 
 
-def getImageResut():
-    return acquireImage.main()
+def rotate():
+    ser = serial.Serial("/dev/ttyAMA0",115200)
+    hex_str = bytes.fromhex('ff ff 03 59 6d ae 74 00')
+    ser.write(hex_str)
+    ser.close()
 
-
-def getColorResult(pics):
-    config = configparser.ConfigParser()
-    config.read("../configs/vision_pretreat.ini")
-
-    pretreat = Pretreat(pics, config)
-    color_scalars = pretreat.GetResult()
-    
-    kmeans_proc = Img2Status(color_scalars)
-    str_result = kmeans_proc.ToStatus()
-
-    return str_result
+def make_sure_open(idx):
+    cp = cv2.VideoCapture(idx)
+    __, frame = cp.read()
+    if not __:
+        __, frame = cp.read()
+    return cp
 
 def getFinalResult(str_result):
     #java_res = os.popen("cd ..\n cd min2phase-dev-min\n java demo {0} | ../transform/build/main\n cd ..\n cd strategy".format(str_result))
@@ -37,23 +34,58 @@ def getFinalResult(str_result):
     return java_res.read()
 
 
-
 def main():
-    pics = getImageResut()
+    # take-lots-time part
+    cam_idx_file = open("../BackupSource/cam_idx.bin", 'rb')
+    cam_idx_list = pickle.load(cam_idx_file)
+
+    up_cam_cp = make_sure_open(cam_idx_list[0])
+    dw_cam_cp = make_sure_open(cam_idx_list[1])
+
+    config = configparser.ConfigParser()
+    config.read("../configs/vision_pretreat.ini")
+
+    pretreater = Pretreat(config)
+    solver = Img2Status()
+
+    ################
+    # Ready Signal #
+    ################
+    print("Ready?", end="")
+    input()
+
+    # stage-1 image
+    pics = []
+    __, frame = up_cam_cp.read()
+    pics.append(frame)
+    __, frame = dw_cam_cp.read()
+    pics.append(frame)
+
+    ################
+    # Begin Signal #
+    ################
+    print("Begin?", end="")
+    input()
+
+    # stage-2 image
+    rotate()
+    time.sleep(20)
+    __, frame = up_cam_cp.read()
+    pics.append(frame)
+    __, frame = dw_cam_cp.read()
+    pics.append(frame)
+
+    # image process part
+    color_vectors = pretreater.GetResult(pics)
+    solver.GetResult(color_vectors)
+
+    # min2phase part
+    cube_status = solver.status
+    moves = getFinalResult(cube_status)
 
 
-    #str_result =''
-    final_result = getFinalResult(str_result)
-
-    
-    cv2.imwrite("a.jpg",pics[0])
-    cv2.imwrite("b.jpg",pics[1])
-    cv2.imwrite("c.jpg",pics[2])
-    cv2.imwrite("d.jpg",pics[3])
-
-    
-
-
+    for i in range(4):
+        cv2.imwrite("../BackupSource/%d.jpg"%(i+4), pics[i])
 
 if __name__ == '__main__':
     main()
