@@ -571,3 +571,8 @@ unsigned char *Transform::getMessage()
     std::cout<<endl;
     return output;
 }
+
+void Transform::AdjustForImage()
+{
+    RRoationUpdate(1);
+}

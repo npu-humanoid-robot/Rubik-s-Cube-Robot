@@ -12,6 +12,7 @@ from vision.Pretreat import Pretreat
 from vision.KmeansVersion import Img2Status
 
 
+
 def getImageResut():
     return acquireImage.main()
 
@@ -39,7 +40,8 @@ def getFinalResult(str_result):
 
 def main():
     pics = getImageResut()
-    str_result = getColorResult(pics)
+
+
     #str_result =''
     final_result = getFinalResult(str_result)
 

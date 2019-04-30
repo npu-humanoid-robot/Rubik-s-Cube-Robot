@@ -29,7 +29,10 @@ public:
 
     void printFinalOut();
     
-   unsigned char *getMessage();
+    unsigned char *getMessage();
+
+    //根据图像调整
+    void AdjustForImage();
     
     
 private:
@@ -129,6 +132,7 @@ private:
     void printOut();
     //void printFinalOut();
     void toChar();
+    void toChar_opt();
     
     int getCost();
     //深搜
@@ -136,11 +140,15 @@ private:
     void dfs_better(int depth);
     void dfs_opt(int depth);
 
+    //最后的检查
+    void final_opt();
+
 
     std::string in;
     std::string in_copy;
     char out[5000];
     char finalOut[5000];
+    char finalOut_opt[5000];
     int numAction;
     int cost;
     int minCost;

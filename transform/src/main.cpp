@@ -31,6 +31,7 @@ int main(int argc, char const *argv[])
     unsigned char *message;
 
     Transform* test1 = new Transform();
+    test1->AdjustForImage();
     test1->mainControl(1);
 
     if (wiringPiSetup() < 0)
