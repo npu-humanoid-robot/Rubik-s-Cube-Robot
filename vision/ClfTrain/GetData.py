@@ -41,7 +41,10 @@ if __name__ == "__main__":
     print(train_data)
     print(train_label)
 
-    cp = cv2.VideoCapture(CP_OPEN)
+    cam_idx_file = open("../../BackupSource/cam_idx.bin", 'rb')
+    cam_idx_list = pickle.load(cam_idx_file)
+
+    cp = cv2.VideoCapture(cam_idx_list[CP_OPEN])
     cv2.namedWindow(window_name)
     cv2.setMouseCallback(window_name, MouseHandler)
     while True:
@@ -72,6 +75,7 @@ if __name__ == "__main__":
         elif key == ord('q'):
             break
         elif key == ord('c'):
-            CP_OPEN = 2-CP_OPEN
+            CP_OPEN += 1
+            CP_OPEN %= 2
             print(CP_OPEN)
-            cp.open(CP_OPEN)
+            cp.open(cam_idx_list[CP_OPEN])

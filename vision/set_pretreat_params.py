@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 import configparser
+import pickle
 
 
 current_point_counter = -1
@@ -25,8 +26,10 @@ def MouseHandler(event, x, y, flags, param):
     return 
 
 if __name__ == "__main__":
+    cam_idx_file = open("../BackupSource/cam_idx.bin", 'rb')
+    cam_idx_list = pickle.load(cam_idx_file)
     CP_OPEN = 0
-    cp = cv2.VideoCapture(CP_OPEN)
+    cp = cv2.VideoCapture(cam_idx_list[CP_OPEN])
     cv2.namedWindow("233")
     cv2.setMouseCallback("233", MouseHandler)
     while True:
@@ -52,9 +55,10 @@ if __name__ == "__main__":
         if key == ord('q'): 
             break
         elif key == ord('c'):
-            CP_OPEN = 2-CP_OPEN
+            CP_OPEN += 1
+            CP_OPEN %= 2
             print(CP_OPEN)
-            cp.open(CP_OPEN)
+            cp.open(cam_idx_list[CP_OPEN])
         elif key-ord('1') <= 3 and key != -1:
             config = configparser.ConfigParser()
             config.read("../configs/vision_pretreat.ini")
