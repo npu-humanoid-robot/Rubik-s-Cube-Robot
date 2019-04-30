@@ -61,7 +61,7 @@ if __name__ == "__main__":
     
     
     pp = Pretreat(config)
-    ya = Img2Status()
+    ya = Img2Status("./ClfTrain/now.model")
 
     starttime = time.time()
 

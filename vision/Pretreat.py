@@ -16,6 +16,7 @@ import copy
 import numpy as np
 import cv2
 import configparser
+import time
 
 color_sample_point_col =[
     # U
@@ -75,27 +76,64 @@ class Pretreat:
     def __init__(self,  config):
         self.SetParams(config)      # get points from config objuect
 
+        # 激活 opencv 的jit🙃，别问，问了就是玄学
+        scalars = np.array([1,1,1]).reshape(1, 1, 3).astype(np.uint8)
+        t_lab = cv2.cvtColor(scalars, cv2.COLOR_BGR2LAB)
+        t_hsv = cv2.cvtColor(scalars, cv2.COLOR_BGR2HSV_FULL)
+
+
     def GetResult(self, raw_four_images_):
         self.raw_four_images = raw_four_images_
 
+        # starttime = time.time()
         self.DoPreproc()
-        
+        # endtime = time.time()
+        # print("p1 cost:", (endtime-starttime))
+
+        # starttime = time.time()
         self.CutImage()
+        # endtime = time.time()
+        # print("p2 cost:", (endtime-starttime))
 
+        # starttime = time.time()
         self.GetSampleRectAvg()
+        # endtime = time.time()
+        # print("p3 cost:", (endtime-starttime))
 
+        # starttime = time.time()
         self.To9Dim()
+        # endtime = time.time()
+        # print("p4 cost:", (endtime-starttime))
+
 
         return self.sample_scalars
     def DoPreproc(self):
         for i in range(len(self.raw_four_images)):
             self.raw_four_images[i] = cv2.GaussianBlur(self.raw_four_images[i], (5, 5), 0)    # make the scalars up to 9 dimension
     def To9Dim(self):
-        for i in range(len(self.sample_scalars)):
+        for i in range(54):
+
+            # starttime = time.time()
+            # for j in range(100000):
+            #     t_lab = cv2.cvtColor(self.sample_scalars[i], cv2.COLOR_BGR2LAB)
+            #     t_hsv = cv2.cvtColor(self.sample_scalars[i], cv2.COLOR_BGR2HSV_FULL)
             t_lab = cv2.cvtColor(self.sample_scalars[i], cv2.COLOR_BGR2LAB)
             t_hsv = cv2.cvtColor(self.sample_scalars[i], cv2.COLOR_BGR2HSV_FULL)
+            # endtime = time.time()
+            # print("c2 cost:", (endtime-starttime))
 
-            self.sample_scalars[i] = np.concatenate((self.sample_scalars[i], t_hsv, t_lab), axis = 2)
+            # print(t_hsv[0][0])
+            # print()
+
+            # starttime = time.time()
+            # for j in range(100000):
+            #     # print(type(self.sample_scalars[i][0][0]), self.sample_scalars[i][0][0].shape)
+                 
+            #     ttt = np.vstack((self.sample_scalars[i][0][0], t_hsv[0][0], t_lab[0][0]))
+            self.sample_scalars[i] = np.vstack((self.sample_scalars[i][0][0], t_hsv[0][0], t_lab[0][0]))
+            # endtime = time.time()
+            # print("circle cost:", (endtime-starttime))
+            # print()
     def CutImage(self):
         # do 透视变换
         self.perspectived_imgs = []
