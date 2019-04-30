@@ -76,11 +76,16 @@ class Pretreat:
     def __init__(self,  config):
         self.SetParams(config)      # get points from config objuect
 
-        # 激活 opencv 的jit🙃，别问，问了就是玄学
+        # 激活jit🙃，别问，问了就是玄学
         scalars = np.array([1,1,1]).reshape(1, 1, 3).astype(np.uint8)
+        cv2.warpPerspective(scalars,
+                        self.trans_mats[0],
+                        (self.perspectived_width, self.perspectived_width)
+                )
+        cv2.GaussianBlur(scalars, (5, 5), 0)
         t_lab = cv2.cvtColor(scalars, cv2.COLOR_BGR2LAB)
         t_hsv = cv2.cvtColor(scalars, cv2.COLOR_BGR2HSV_FULL)
-
+        np.concatenate((t_hsv, t_lab), axis=2)
 
     def GetResult(self, raw_four_images_):
         self.raw_four_images = raw_four_images_
@@ -130,7 +135,7 @@ class Pretreat:
             #     # print(type(self.sample_scalars[i][0][0]), self.sample_scalars[i][0][0].shape)
                  
             #     ttt = np.vstack((self.sample_scalars[i][0][0], t_hsv[0][0], t_lab[0][0]))
-            self.sample_scalars[i] = np.vstack((self.sample_scalars[i][0][0], t_hsv[0][0], t_lab[0][0]))
+            self.sample_scalars[i] = np.concatenate((self.sample_scalars[i], t_hsv, t_lab), axis=2)
             # endtime = time.time()
             # print("circle cost:", (endtime-starttime))
             # print()
