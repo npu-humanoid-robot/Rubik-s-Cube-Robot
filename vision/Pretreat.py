@@ -17,6 +17,7 @@ import numpy as np
 import cv2
 import configparser
 import time
+from numba import jit
 
 color_sample_point_col =[
     # U
@@ -86,7 +87,10 @@ class Pretreat:
         t_lab = cv2.cvtColor(scalars, cv2.COLOR_BGR2LAB)
         t_hsv = cv2.cvtColor(scalars, cv2.COLOR_BGR2HSV_FULL)
         np.concatenate((t_hsv, t_lab), axis=2)
-
+        self.sample_scalars = []
+        self.sample_scalars.append(scalars)
+        self.To9Dim()
+        del self.sample_scalars
     def GetResult(self, raw_four_images_):
         self.raw_four_images = raw_four_images_
 
@@ -115,8 +119,9 @@ class Pretreat:
     def DoPreproc(self):
         for i in range(len(self.raw_four_images)):
             self.raw_four_images[i] = cv2.GaussianBlur(self.raw_four_images[i], (5, 5), 0)    # make the scalars up to 9 dimension
+    @jit
     def To9Dim(self):
-        for i in range(54):
+        for i in range(len(self.sample_scalars)):
 
             # starttime = time.time()
             # for j in range(100000):
@@ -167,7 +172,6 @@ class Pretreat:
         )
         # 改顺序
         self.perspectived_imgs[2], self.perspectived_imgs[4] = self.perspectived_imgs[4], self.perspectived_imgs[2]
-    
     def GetSampleRectAvg(self):
         # sum the scalar and get avg
         # at the same time to show the rect 
