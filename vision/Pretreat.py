@@ -17,7 +17,7 @@ import numpy as np
 import cv2
 import configparser
 import time
-from numba import jit
+#from numba import jit
 
 color_sample_point_col =[
     # U
@@ -119,7 +119,7 @@ class Pretreat:
     def DoPreproc(self):
         for i in range(len(self.raw_four_images)):
             self.raw_four_images[i] = cv2.GaussianBlur(self.raw_four_images[i], (5, 5), 0)    # make the scalars up to 9 dimension
-    @jit
+#    @jit
     def To9Dim(self):
         for i in range(len(self.sample_scalars)):
 
